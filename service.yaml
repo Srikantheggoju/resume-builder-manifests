@@ -9,7 +9,8 @@ spec:
     app: resume-builder
 
   ports:
-  - port: 80
+  - protocol: TCP
+    port: 80
     targetPort: 3000
 
   type: NodePort
