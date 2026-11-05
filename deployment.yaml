@@ -3,6 +3,8 @@ kind: Deployment
 
 metadata:
   name: resume-builder
+  labels:
+    app: resume-builder
 
 spec:
   replicas: 2
@@ -20,6 +22,29 @@ spec:
       containers:
       - name: resume-builder
         image: srikantheggoju/resume-builder:latest
+        imagePullPolicy: Always
 
         ports:
         - containerPort: 3000
+
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 20
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 5
